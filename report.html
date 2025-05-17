@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PISHSIM - Report</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    body {
+      width: 500px;
+      min-height: 400px;
+    }
+    
+    .report-form {
+      margin-top: 20px;
+    }
+    
+    .form-group {
+      margin-bottom: 15px;
+    }
+    
+    .form-group label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: 500;
+    }
+    
+    .form-group input[type="text"],
+    .form-group textarea,
+    .form-group select {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-family: inherit;
+    }
+    
+    .form-group textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
+    
+    .radio-group {
+      display: flex;
+      gap: 15px;
+    }
+    
+    .radio-option {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    
+    .submit-btn {
+      background-color: #1976d2;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: 500;
+      margin-top: 10px;
+    }
+    
+    .submit-btn:hover {
+      background-color: #1565c0;
+    }
+    
+    .success-message {
+      background-color: #e8f5e9;
+      color: #2e7d32;
+      padding: 15px;
+      border-radius: 4px;
+      margin-top: 20px;
+      text-align: center;
+      display: none;
+    }
+    
+    .nav-tabs {
+      display: flex;
+      border-bottom: 1px solid #ddd;
+      margin-bottom: 20px;
+    }
+    
+    .nav-tab {
+      padding: 10px 15px;
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+    }
+    
+    .nav-tab.active {
+      border-bottom: 2px solid #1976d2;
+      color: #1976d2;
+      font-weight: 500;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <img src="images/icon48.png" alt="PISHSIM Logo" class="logo">
+      <h1>PISHSIM</h1>
+    </div>
+    
+    <div class="nav-tabs">
+      <div class="nav-tab" id="tab-home">Home</div>
+      <div class="nav-tab" id="tab-safelist">Safe List</div>
+      <div class="nav-tab" id="tab-settings">Settings</div>
+      <div class="nav-tab active" id="tab-report">Report</div>
+    </div>
+    
+    <h2>Report a Website</h2>
+    <p>Help improve our detection system by reporting websites that were incorrectly classified.</p>
+    
+    <div class="report-form">
+      <div class="form-group">
+        <label for="url-input">Website URL</label>
+        <input type="text" id="url-input" placeholder="https://example.com">
+      </div>
+      
+      <div class="form-group">
+        <label>Is this website a phishing site?</label>
+        <div class="radio-group">
+          <div class="radio-option">
+            <input type="radio" id="is-phishing-yes" name="is-phishing" value="true">
+            <label for="is-phishing-yes">Yes, it's phishing</label>
+          </div>
+          <div class="radio-option">
+            <input type="radio" id="is-phishing-no" name="is-phishing" value="false" checked>
+            <label for="is-phishing-no">No, it's legitimate</label>
+          </div>
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label for="report-type">Report Type</label>
+        <select id="report-type">
+          <option value="false-positive">False Positive (legitimate site marked as phishing)</option>
+          <option value="false-negative">False Negative (phishing site not detected)</option>
+          <option value="suggestion">Suggestion for Improvement</option>
+          <option value="other">Other</option>
+        </select>
+      </div>
+      
+      <div class="form-group">
+        <label for="feedback">Additional Information</label>
+        <textarea id="feedback" placeholder="Please provide any additional details that might help us improve our detection system."></textarea>
+      </div>
+      
+      <button id="submit-report" class="submit-btn">Submit Report</button>
+    </div>
+    
+    <div id="success-message" class="success-message">
+      Thank you for your report! Your feedback helps improve our phishing detection system.
+    </div>
+  </div>
+  
+  <script src="report.js"></script>
+</body>
+</html>

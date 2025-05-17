@@ -2,8 +2,8 @@
   "manifest_version": 3,
   "name": "PISHSIM",
   "version": "1.0",
-  "description": "Detects and warns about potential phishing links",
-  "permissions": ["activeTab", "storage", "tabs", "scripting"],
+  "description": "Advanced phishing detection with machine learning",
+  "permissions": ["activeTab", "storage", "tabs", "scripting", "notifications"],
   "host_permissions": ["<all_urls>"],
   "action": {
     "default_popup": "popup.html",
