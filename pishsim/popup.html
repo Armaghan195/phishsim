@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PISHSIM</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <img src="images/icon48.png" alt="PISHSIM Logo" class="logo">
+      <h1>PISHSIM</h1>
+    </div>
+    
+    <div id="status-container">
+      <div id="loading" class="status-message">
+        <div class="spinner"></div>
+        <p>Checking current URL...</p>
+      </div>
+      
+      <div id="safe" class="status-message hidden">
+        <div class="status-icon safe">✓</div>
+        <p>This website appears to be safe</p>
+      </div>
+      
+      <div id="danger" class="status-message hidden">
+        <div class="status-icon danger">⚠️</div>
+        <p>Warning: Potential phishing site detected!</p>
+      </div>
+    </div>
+    
+    <div id="url-info" class="hidden">
+      <h2>Current URL</h2>
+      <div class="url-display">
+        <p id="current-url">https://example.com</p>
+      </div>
+    </div>
+    
+    <div id="details-container" class="hidden">
+      <h2>Risk Factors</h2>
+      <ul id="risk-factors"></ul>
+    </div>
+    
+    <div class="footer">
+      <button id="check-button">Check Again</button>
+      <button id="report-button" class="hidden">Report False Positive</button>
+    </div>
+  </div>
+  
+  <script src="popup.js"></script>
+</body>
+</html>
