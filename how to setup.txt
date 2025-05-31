@@ -1,0 +1,109 @@
+download the content from the repository,
+
+open folder in vscode (project)
+
+//goto phishsim-backend
+
+cd phishsim-backend
+
+//type in terminal
+
+Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned //do this only if the below command doesnot work
+
+
+.\venv\Scripts\Activate.ps1  //run it before running the server
+                                                      //1by1
+
+
+
+pip install flask flask-cors scikit-learn pandas numpy joblib requests tld feature-engine xgboost
+
+//before installing these below, try to run the server,
+pip install joblib
+
+pip install scikit-learn
+
+pip install flask //if slask doesn't install
+
+//the file structure should be like this:
+PROJECTS/
+│
+├── pishsim/                             # 📦 Chrome Extension Frontend
+│   ├── images/                          # (Optional) Icons or assets
+│   ├── background.js                    # Background script for extension
+│   ├── content.js                       # Script injected into webpages
+│   ├── manifest.json                    # Chrome extension config
+│   ├── popup.html                       # UI for extension popup
+│   ├── popup.js                         # Logic for popup interactions
+│   ├── report.html                      # Page for phishing reports
+│   ├── report.js                        # Logic for reporting
+│   ├── safelist.html                    # Whitelisted safe URLs UI
+│   ├── safelist.js                      # Logic for safelist
+│   ├── settings.html                    # Extension settings page
+│   ├── settings.js                      # JS for settings UI
+│   └── styles.css                       # Global extension styling
+│
+├── pishsim-backend/                     # 🧠 Flask + ML Backend
+│   ├── venv/                            # Python virtual environment
+│   ├── app.py                           # Main Flask API
+│   ├── feature_names.pkl                # Feature names for model explanation
+│   ├── model_check.py                   # Script to test model loading/prediction
+│   ├── model_info.json                  # Extra metadata about the model
+│   ├── phishing_dataset.csv             # Dataset (10k rows)
+│   ├── phishing_model.pkl               # Trained ML model
+│   ├── run_server.sh                    # Script to launch Flask server (Linux)
+│   ├── tfidf_vectorizer.pkl             # TF-IDF vectorizer used for model
+│   └── train_model.py                   # Script to train model on dataset
+
+//after installation run the server:
+// make sure its says (venv) before your directory,
+python app.py
+
+
+
+// open a new terminal and Run the code to test if server running or not:
+
+Invoke-RestMethod -Uri "http://localhost:5000/check_url" `
+  -Method POST `
+  -Body '{"url": "http://instagrum.com"}' `
+  -ContentType "application/json"
+
+
+
+
+Invoke-RestMethod -Uri "http://localhost:5000/check_url" `
+  -Method POST `
+  -Body '{"url": "http://secure-paypal.com-login.verify-update-account.info/"}' `
+  -ContentType "application/json"
+
+
+
+
+
+
+
+
+{ error: Uncaught (in promise) Error: Could not establish connection. Receiving end does not exist.
+Context
+background.js
+Stack Trace
+background.js:0 (anonymous function)
+Nothing to see here, move along. }
+
+This error occurs in all Chrome extensions when:
+
+A chrome.runtime.sendMessage(...) is sent...
+
+...but no listener is set up to receive it in the background script or content script at that moment
+
+It's harmless in your case because:
+
+Your popup.js doesn’t expect a response from background.js on some occasions
+
+Chrome logs it anyway as a warning
+
+
+
+
+
+
