@@ -455,3 +455,10 @@ chrome.notifications.onClicked.addListener(function(notificationId) {
     }
   });
 });
+
+// Dummy catch-all to silence unmatched messages (e.g., from popup or future scripts)
+chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
+  // Prevent error "Receiving end does not exist"
+  sendResponse({ acknowledged: true });
+  return true;
+});
