@@ -213,12 +213,15 @@ async function checkPhishingUrlML(url) {
   } catch (error) {
     console.error('Error checking URL with ML backend:', error);
     // Fall back to local rules if ML backend fails
-    return { 
-      is_phishing: checkPhishingUrlLocal(url).isPhishing,
-      risk_factors: checkPhishingUrlLocal(url).riskFactors,
-      phishing_probability: 0.5,
-      error: 'ML backend unavailable, using local rules'
-    };
+ return {
+  isPhishing: mlResult.isPhishing,
+  riskFactors: mlResult.riskFactors,
+  phishingProbability: mlResult.phishingProbability,
+  topIndicators: mlResult.topIndicators || []
+};
+
+
+
   }
 }
 
@@ -286,11 +289,12 @@ async function checkUrl(url) {
       }
       
       return {
-        isPhishing: mlResult.phishing_probability > threshold,
-        riskFactors: mlResult.risk_factors,
-        phishingProbability: mlResult.phishing_probability,
-        topIndicators: mlResult.top_indicators || []
-      };
+  isPhishing: mlResult.isPhishing,
+  riskFactors: mlResult.riskFactors,
+  phishingProbability: mlResult.phishingProbability,
+  topIndicators: mlResult.topIndicators || []
+};
+
     } catch (error) {
       console.error('Error with ML check:', error);
       // Fall back to local rules
@@ -456,9 +460,4 @@ chrome.notifications.onClicked.addListener(function(notificationId) {
   });
 });
 
-// Dummy catch-all to silence unmatched messages (e.g., from popup or future scripts)
-chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
-  // Prevent error "Receiving end does not exist"
-  sendResponse({ acknowledged: true });
-  return true;
-});
+
