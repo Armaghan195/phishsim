@@ -1,110 +1,125 @@
-download the content from the repository,
+PHISHSIM CHROME EXTENSION – SETUP GUIDE
+==================================================
 
-open folder in vscode (project)
+STEP 1: CLONE OR DOWNLOAD THE REPOSITORY
+--------------------------------------------------
+Download or clone the complete project to your system.
 
-//goto phishsim-backend
+Example using Git:
+    git clone https://github.com/Armaghan195/phishsim.git
 
-cd phishsim-backend
+--------------------------------------------------
 
-//type in terminal
+STEP 2: OPEN THE PROJECT IN VS CODE
+--------------------------------------------------
+1. Launch Visual Studio Code.
+2. Open the project root folder (e.g., PROJECTS/).
 
-Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned //do this only if the below command doesnot work
+--------------------------------------------------
 
-python -m venv venv
-
-.\venv\Scripts\Activate.ps1  //run it before running the server
-                                                      //1by1
-
-
-
-pip install flask flask-cors scikit-learn pandas numpy joblib requests tld feature-engine xgboost
-
-//before installing these below, try to run the server,
-pip install joblib
-
-pip install scikit-learn
-
-pip install flask //if slask doesn't install
-
-//the file structure should be like this:
+FOLDER STRUCTURE OVERVIEW
+--------------------------------------------------
 PROJECTS/
 │
-├── pishsim/                             # 📦 Chrome Extension Frontend
-│   ├── images/                          # (Optional) Icons or assets
-│   ├── background.js                    # Background script for extension
-│   ├── content.js                       # Script injected into webpages
-│   ├── manifest.json                    # Chrome extension config
-│   ├── popup.html                       # UI for extension popup
-│   ├── popup.js                         # Logic for popup interactions
-│   ├── report.html                      # Page for phishing reports
-│   ├── report.js                        # Logic for reporting
-│   ├── safelist.html                    # Whitelisted safe URLs UI
-│   ├── safelist.js                      # Logic for safelist
-│   ├── settings.html                    # Extension settings page
-│   ├── settings.js                      # JS for settings UI
-│   └── styles.css                       # Global extension styling
+├── pishsim/               Chrome Extension (Frontend)
+│   ├── background.js
+│   ├── content.js
+│   ├── manifest.json
+│   ├── popup.html
+│   ├── popup.js
+│   ├── report.html
+│   ├── report.js
+│   ├── safelist.html
+│   ├── safelist.js
+│   ├── settings.html
+│   ├── settings.js
+│   └── styles.css
 │
-├── pishsim-backend/                     # 🧠 Flask + ML Backend
-│   ├── venv/                            # Python virtual environment
-│   ├── app.py                           # Main Flask API
-│   ├── feature_names.pkl                # Feature names for model explanation
-│   ├── model_check.py                   # Script to test model loading/prediction
-│   ├── model_info.json                  # Extra metadata about the model
-│   ├── phishing_dataset.csv             # Dataset (10k rows)
-│   ├── phishing_model.pkl               # Trained ML model
-│   ├── run_server.sh                    # Script to launch Flask server (Linux)
-│   ├── tfidf_vectorizer.pkl             # TF-IDF vectorizer used for model
-│   └── train_model.py                   # Script to train model on dataset
+├── pishsim-backend/       Flask + ML API (Backend)
+    ├── app.py
+    ├── phishing_model.pkl
+    ├── tfidf_vectorizer.pkl
+    ├── phishing_dataset.csv
+    ├── train_model.py
+    ├── model_check.py
+    ├── model_info.json
+    ├── feature_names.pkl
+    └── run_server.sh
 
-//after installation run the server:
-// make sure its says (venv) before your directory,
-python app.py
+--------------------------------------------------
 
+STEP 3: SET UP THE BACKEND (FLASK + ML)
+--------------------------------------------------
 
+1. Navigate to Backend Folder
+    cd pishsim-backend
 
-// open a new terminal and Run the code to test if server running or not:
+2. [Optional] Allow PowerShell Scripts (only if needed)
+    Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned
 
-Invoke-RestMethod -Uri "http://localhost:5000/check_url" `
-  -Method POST `
-  -Body '{"url": "http://instagrum.com"}' `
-  -ContentType "application/json"
+3. Create and Activate Virtual Environment
+    python -m venv venv
+    .\venv\Scripts\Activate.ps1
 
+   You should now see (venv) in your terminal prompt.
 
+--------------------------------------------------
 
+STEP 4: INSTALL REQUIRED PYTHON LIBRARIES
+--------------------------------------------------
+    pip install flask flask-cors scikit-learn pandas numpy joblib requests tld feature-engine xgboost
 
-Invoke-RestMethod -Uri "http://localhost:5000/check_url" `
-  -Method POST `
-  -Body '{"url": "http://secure-paypal.com-login.verify-update-account.info/"}' `
-  -ContentType "application/json"
+If any package fails to install, retry individually:
+    pip install flask
+    pip install scikit-learn
+    pip install joblib
 
+--------------------------------------------------
 
+STEP 5: START THE BACKEND SERVER
+--------------------------------------------------
+In the pishsim-backend/ folder:
+    python app.py
 
+If the server starts successfully, it will run on http://localhost:5000
 
+--------------------------------------------------
 
+STEP 6: TEST THE API (PHISHING URL DETECTION)
+--------------------------------------------------
+Open a new PowerShell terminal and run:
 
+    Invoke-RestMethod -Uri "http://localhost:5000/check_url" `
+      -Method POST `
+      -Body '{"url": "http://instagrum.com"}' `
+      -ContentType "application/json"
 
+    Invoke-RestMethod -Uri "http://localhost:5000/check_url" `
+      -Method POST `
+      -Body '{"url": "http://secure-paypal.com-login.verify-update-account.info/"}' `
+      -ContentType "application/json"
 
-{ error: Uncaught (in promise) Error: Could not establish connection. Receiving end does not exist.
-Context
-background.js
-Stack Trace
-background.js:0 (anonymous function)
-Nothing to see here, move along. }
+--------------------------------------------------
 
-This error occurs in all Chrome extensions when:
+STEP 7: LOAD THE CHROME EXTENSION
+--------------------------------------------------
+1. Open Google Chrome.
+2. Go to chrome://extensions/
+3. Enable Developer Mode (top right).
+4. Click “Load unpacked”.
+5. Select the pishsim/ folder.
 
-A chrome.runtime.sendMessage(...) is sent...
+--------------------------------------------------
 
-...but no listener is set up to receive it in the background script or content script at that moment
+CHROME RUNTIME WARNING
+--------------------------------------------------
+You may see this in the console:
 
-It's harmless in your case because:
+    Uncaught (in promise) Error: Could not establish connection. Receiving end does not exist.
 
-Your popup.js doesn’t expect a response from background.js on some occasions
+This is harmless and occurs when chrome.runtime.sendMessage() is used without a listener ready.
+You can safely ignore it.
 
-Chrome logs it anyway as a warning
+--------------------------------------------------
 
-
-
-
-
-
+PhishSim is now set up and ready to use.
