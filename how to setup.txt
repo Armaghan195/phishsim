@@ -10,6 +10,7 @@ cd phishsim-backend
 
 Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned //do this only if the below command doesnot work
 
+python -m venv venv
 
 .\venv\Scripts\Activate.ps1  //run it before running the server
                                                       //1by1
