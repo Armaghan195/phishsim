@@ -55,6 +55,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Send message to background script to check the URL
     chrome.runtime.sendMessage({ action: 'checkUrl', url: url }, function(response) {
+      console.log("Received backend response:", response);
       // Hide loading state
       loadingElement.classList.add('hidden');
       
@@ -111,6 +112,8 @@ document.addEventListener('DOMContentLoaded', function() {
         }
       }
     });
+    
+
   }
   
   // Format feature names for display

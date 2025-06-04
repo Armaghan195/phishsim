@@ -9,10 +9,10 @@ vectorizer = joblib.load("tfidf_vectorizer.pkl")
 app = Flask(__name__)
 CORS(app)
 
-# Generate Risk Factors
+# === Risk Factor Generator ===
 def get_risk_factors(url):
-    factors = []
     url = url.lower()
+    factors = []
     if len(url) > 100:
         factors.append("URL is unusually long")
     if url.count("-") > 3:
@@ -23,18 +23,19 @@ def get_risk_factors(url):
         factors.append("Too many subdomains")
     return factors[:5]
 
-# Generate Dummy Top Indicators
+# === Dummy Top Indicators (static for now) ===
 def get_top_indicators():
     return [
-        {"feature": "tfidf_score_login", "importance": float(0.35)},
-        {"feature": "subdomain_count", "importance": float(0.25)},
-        {"feature": "url_length", "importance": float(0.20)}
+        { "feature": "url_length", "importance": 0.35 },
+        { "feature": "subdomain_count", "importance": 0.25 },
+        { "feature": "tfidf_score_login", "importance": 0.20 }
     ]
 
 @app.route('/')
 def home():
     return "✅ Phishing Detection API is Running"
 
+@app.route('/check_url', methods=['POST'])
 @app.route('/check_url', methods=['POST'])
 def check_url():
     data = request.get_json()
@@ -44,16 +45,20 @@ def check_url():
         return jsonify({'error': 'No URL provided'}), 400
 
     vector = vectorizer.transform([url])
-    prob = model.predict_proba(vector)[0][1]
+    prob = float(model.predict_proba(vector)[0][1])   # Ensure native float
+    is_phishing = bool(prob >= 0.5)                    # Ensure native bool
 
     response = {
-        "is_phishing": bool(prob >= 0.5),
-        "phishing_probability": float(round(prob, 2)),
-        "risk_factors": get_risk_factors(url),
-        "top_indicators": get_top_indicators()
+        "isPhishing": is_phishing,
+        "phishingProbability": round(prob, 2),
+        "riskFactors": get_risk_factors(str(url)),
+        "topIndicators": get_top_indicators()
     }
 
     return jsonify(response)
+
+
+
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)
